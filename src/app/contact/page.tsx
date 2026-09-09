@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import ContactForm from "@/app/contact/components/contactForm";
 import { ContactHeader } from "./components/contactHeader";
+
+export const metadata: Metadata = {
+  title: "Let's Talk | Kavod",
+};
 
 export default function Contact() {
   return (

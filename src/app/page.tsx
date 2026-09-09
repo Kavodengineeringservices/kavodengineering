@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { SendMessageCard } from "@/app/contact/components/sendMessageCard";
 import { AboutUs } from "./home/components/aboutUs";
 import { HomeHeader } from "./home/components/homeHeader";
 import { IndustriesServed } from "./home/components/industriesServed";
 import { OurServices } from "./home/components/ourServices";
+
+export const metadata: Metadata = {
+  title: "Experts in Welding & Quality Assurance",
+};
 
 const values = [
   {

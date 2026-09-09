@@ -4,7 +4,7 @@ import Link from "next/link";
 export const Navbar = () => {
   return (
     <div className="kes-navbar">
-      <Link href="/home" aria-label="Kavod Engineering Services home">
+      <Link href="/" aria-label="Kavod Engineering Services home">
         <Image
           src="/images/KESMainLogo2.png"
           alt="Kavod Engineering Services"

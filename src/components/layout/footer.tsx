@@ -38,8 +38,8 @@ export const Footer = () => {
         <section>
           <h3>Explore</h3>
           <nav>
-            <Link href="/home#about">About us</Link>
-            <Link href="/home#services">Services</Link>
+            <Link href="/#about">About us</Link>
+            <Link href="/#services">Services</Link>
             <Link href="/contact">Contact us</Link>
             <a href="#">Visit our Blog ↗</a>
           </nav>

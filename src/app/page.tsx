@@ -7,7 +7,7 @@ import { IndustriesServed } from "./home/components/industriesServed";
 import { OurServices } from "./home/components/ourServices";
 
 export const metadata: Metadata = {
-  title: "Experts in Welding & Quality Assurance",
+  title: "Leading Experts in Materials Quality Assurance and Control | Kavod",
 };
 
 const values = [

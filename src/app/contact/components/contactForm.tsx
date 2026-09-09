@@ -3,6 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -21,12 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-
 import { contactSchema } from "@/schema/contact";
 import { CustomButton } from "@/components/shared/customButton";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { LoadingOverlay } from "@/components/shared/loadingOverlay";
 
 export default function ContactForm() {
@@ -60,20 +59,13 @@ export default function ContactForm() {
       const data = await response.json();
 
       if (data.status === "success") {
-        console.log("Service request successfully sent:", data.message);
-
         form.reset();
-
         sessionStorage.setItem("consultationSuccess", "true");
         router.replace("/contact/success");
       } else {
-        console.error("Error submitting form:", data.message);
-
         toast(`Error: ${data.message}`);
       }
-    } catch (error) {
-      console.error("Unexpected error:", error);
-
+    } catch {
       toast("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -81,161 +73,36 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="relative">
+    <section className="kes-form-shell">
       {loading && <LoadingOverlay />}
 
-      <section className="shadow-2xl bg-base-white py-6 px-5 md:py-9 md:px-8 flex flex-col space-y-5 justify-center ">
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h3 className="text-[36px] leading-[42px] font-medium max-w-[95%] md:max-w-[85%] lg:max-w-[80%] xl:max-w-[70%]">
-            Send us a message
-          </h3>
-          <p className="text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[45%]">
-            Thank you for your interest in KAVOD Engineering Services. Use the
-            form below to direct your inquiries, consultations, or service
-            requests.
-          </p>
-        </div>
+      <div className="kes-form-heading">
+        <p className="kes-kicker">Consultation request</p>
+        <h2>Send us a message</h2>
+        <p>
+          Thank you for your interest in KAVOD Engineering Services. Use the
+          form below to direct your inquiries, consultations, or service
+          requests.
+        </p>
+      </div>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col space-y-5"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <div>
-                        Name<span className="text-required">*</span>
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your full name"
-                        {...field}
-                        className="h-[48px] border-gray-100 focus-visible:border-brand-900 focus-visible:ring-0"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <div>
-                        Email address<span className="text-required">*</span>
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter email address"
-                        {...field}
-                        className="h-[48px] border-gray-100 focus-visible:border-brand-900 focus-visible:ring-0"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="contactNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact number</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter contact number"
-                        {...field}
-                        className="h-[48px] border-gray-100 focus-visible:border-brand-900 focus-visible:ring-0"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="subject"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <div>
-                        Subject<span className="text-required">*</span>
-                      </div>
-                    </FormLabel>
-
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl className="w-full">
-                        <SelectTrigger className="!h-[48px] border-gray-100 focus-visible:border-brand-900 focus-visible:ring-0">
-                          <SelectValue placeholder="Select inquiry type" />
-                        </SelectTrigger>
-                      </FormControl>
-
-                      <SelectContent>
-                        <SelectItem value="Quality Assurance Inspection">
-                          Quality Assurance Inspection
-                        </SelectItem>
-
-                        <SelectItem value="Non-Destructive Testing">
-                          Non-Destructive Testing
-                        </SelectItem>
-
-                        <SelectItem value="Coatings Inspection">
-                          Coatings Inspection
-                        </SelectItem>
-
-                        <SelectItem value="CWI Training">
-                          CWI Training
-                        </SelectItem>
-
-                        <SelectItem value="Engineering Consulting">
-                          Engineering Consulting
-                        </SelectItem>
-
-                        <SelectItem value="WPS, PQR, and WQTR/WPQ Preparation">
-                          WPS, PQR, and WQTR/WPQ Preparation
-                        </SelectItem>
-
-                        <SelectItem value="Other Inquiries">
-                          Other Inquiries
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="kes-form">
+          <div className="kes-form-row">
             <FormField
               control={form.control}
-              name="message"
+              name="name"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="kes-form-field">
                   <FormLabel>
-                    <div>
-                      Message<span className="text-required">*</span>
-                    </div>
+                    Name <span aria-hidden="true">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter message"
+                    <Input
+                      autoComplete="name"
+                      placeholder="Enter your full name"
+                      className="kes-form-input"
                       {...field}
-                      className="h-[180px] border-gray-100 focus-visible:border-brand-900 focus-visible:ring-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -243,10 +110,124 @@ export default function ContactForm() {
               )}
             />
 
-            <CustomButton type="submit">Submit</CustomButton>
-          </form>
-        </Form>
-      </section>
-    </div>
+            <FormField
+              control={form.control}
+              name="contactNumber"
+              render={({ field }) => (
+                <FormItem className="kes-form-field">
+                  <FormLabel>Contact number</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="Enter contact number"
+                      className="kes-form-input"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="kes-form-field">
+                <FormLabel>
+                  Email address <span aria-hidden="true">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="Enter email address"
+                    className="kes-form-input"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="subject"
+            render={({ field }) => (
+              <FormItem className="kes-form-field">
+                <FormLabel>
+                  Subject <span aria-hidden="true">*</span>
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="kes-form-input kes-form-select">
+                      <SelectValue placeholder="Select inquiry type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="kes-select-content">
+                    <SelectItem value="Quality Assurance Inspection">
+                      Quality Assurance Inspection
+                    </SelectItem>
+                    <SelectItem value="Non-Destructive Testing">
+                      Non-Destructive Testing
+                    </SelectItem>
+                    <SelectItem value="Coatings Inspection">
+                      Coatings Inspection
+                    </SelectItem>
+                    <SelectItem value="CWI Training">CWI Training</SelectItem>
+                    <SelectItem value="Engineering Consulting">
+                      Engineering Consulting
+                    </SelectItem>
+                    <SelectItem value="WPS, PQR, and WQTR/WPQ Preparation">
+                      WPS, PQR, and WQTR/WPQ Preparation
+                    </SelectItem>
+                    <SelectItem value="Other Inquiries">Other Inquiries</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem className="kes-form-field">
+                <FormLabel>
+                  Message <span aria-hidden="true">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Tell us about your project"
+                    className="kes-form-input kes-form-message"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="kes-form-footer">
+            <p>
+              Fields marked with an asterisk are required. A member of our team
+              will respond to you very soon.
+            </p>
+            <CustomButton
+              type="submit"
+              variant="secondary"
+              className="kes-form-submit"
+            >
+              {loading ? "Sending…" : "Submit"}
+            </CustomButton>
+          </div>
+        </form>
+      </Form>
+    </section>
   );
 }

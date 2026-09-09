@@ -23,7 +23,7 @@
   scroll-behavior: smooth;
   padding: 0;
   margin: 0;
-  background: var(--color-base-white);
+  background: var(--color-base-black);
   color: var(--color-brand-900);
   --radius: 0;
   --card: oklch(1 0 0);
@@ -166,6 +166,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-base-black text-foreground;
   }
 }

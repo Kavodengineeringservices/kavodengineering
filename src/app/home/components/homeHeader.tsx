@@ -1,34 +1,26 @@
-import Image from "next/image";
-import { CustomButton } from "@/components/shared/customButton";
+"use client";
+
+import { useState } from "react";
+import { Swiper as SwiperType } from "swiper";
+
+import { HomeHeaderText } from "./homeHeaderText";
+import { BackgroundCarouselWithControls } from "./backgroundCarouselWithControls";
+import { CarouselControls } from "./carouselControls";
+
+import { Overlay } from "@/components/shared/overlay";
 
 export const HomeHeader = () => {
-  return (
-    <header className="kes-hero">
-      <Image
-        src="/images/image1.jpg"
-        alt="Illuminated structural steel framework"
-        fill
-        priority
-        sizes="100vw"
-        quality={75}
-        className="object-cover object-center"
-      />
-      <div className="kes-hero-shade" />
-      <div className="kes-grid-overlay" />
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
 
-      <div className="kes-hero-content">
-        <p className="kes-kicker">Engineering quality assurance</p>
-        <h1>Engineering Quality, Ensuring Integrity.</h1>
-        <p className="kes-hero-copy">
-          Leading experts in materials quality assurance and quality control
-          inspection for safer and stronger infrastructure.
-        </p>
-        <CustomButton href="/contact" className="kes-hero-cta">
-          <span className="flex items-center gap-3">
-            Get a consultation
-            <Image src="/svg/ArrowUpRight.svg" alt="" width={18} height={18} />
-          </span>
-        </CustomButton>
+  return (
+    <header className="relative h-dvh flex justify-center items-center text-base-white">
+      <BackgroundCarouselWithControls setSwiperInstance={setSwiperInstance} />
+
+      <Overlay />
+
+      <div className="absolute w-full px-5 md:px-10 pb-10 md:pb-16 bottom-0 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+        <HomeHeaderText /> 
+        <CarouselControls swiperInstance={swiperInstance} />
       </div>
     </header>
   );

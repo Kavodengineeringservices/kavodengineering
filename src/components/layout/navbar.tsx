@@ -3,15 +3,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 
 import { CustomButton } from "../shared/customButton";
 
-// static navigation bar component
+const subscribeToScroll = (onScroll: () => void) => {
+  window.addEventListener("scroll", onScroll, { passive: true });
+  return () => window.removeEventListener("scroll", onScroll);
+};
+
+const getScrollSnapshot = () => window.scrollY > 20;
+const getServerScrollSnapshot = () => false;
+
 export const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
+  const hasScrolled = useSyncExternalStore(
+    subscribeToScroll,
+    getScrollSnapshot,
+    getServerScrollSnapshot
+  );
+  const hasImageHero = ["/", "/home", "/services", "/contact"].includes(pathname);
+  const useLightNavigation = hasImageHero && !hasScrolled;
 
   // function to handle scrolling into the about section
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -33,31 +47,39 @@ export const Navbar = () => {
 
   return (
     <>
-      <aside className="bg-base-white px-5 flex justify-between items-center py-3 lg:px-10">
+      <aside
+        className={`px-5 flex justify-between items-center py-3 lg:px-10 transition-colors duration-300 motion-reduce:transition-none ${
+          hasScrolled ? "bg-base-white shadow-sm" : "bg-transparent"
+        } ${useLightNavigation ? "text-base-white" : "text-brand-900"}`}
+      >
         <Link href="/">
           <Image
-            src="/images/KESMainLogo.png"
+            src={
+              useLightNavigation
+                ? "/images/KESMainLogo2.png"
+                : "/images/KESMainLogo.png"
+            }
             alt="Kavod Engineering Main Logo"
             width={128}
-            height={0}
+            height={29}
             priority
           />
         </Link>
 
         <div className="flex items-center space-x-7">
-          <nav className="hidden md:flex justify-between space-x-7 text-gray-600 text-[14px]">
+          <nav className="hidden md:flex justify-between space-x-7 text-[14px]">
             <Link
               href="/home#about"
               onClick={handleScroll}
-              className="hover:text-brand-700"
+              className="transition-colors hover:text-secondary-500"
             >
               About us
             </Link>
 
             <Link
               href="/services"
-              className={`hover:text-brand-700 ${
-                pathname === "/services" ? "text-brand-700" : ""
+              className={`transition-colors hover:text-secondary-500 ${
+                pathname === "/services" ? "text-secondary-500" : ""
               }`}
             >
               Services
@@ -72,12 +94,16 @@ export const Navbar = () => {
         <button
           onClick={() => setIsMobileNavbarOpen(!isMobileNavbarOpen)}
           className="visible md:hidden"
+          aria-label="Open navigation menu"
+          aria-expanded={isMobileNavbarOpen}
+          aria-controls="mobile-navigation"
         >
           <Image
-            src="svg/ListIcon.svg"
-            alt="Menu Button"
+            src="/svg/ListIcon.svg"
+            alt=""
             width={24}
             height={24}
+            className={useLightNavigation ? "brightness-0 invert" : ""}
           />
         </button>
       </aside>
@@ -122,6 +148,8 @@ export const MobileNavbar = ({ isOpen, closeMenu }: MobileNavbarProps) => {
 
   return (
     <section
+      id="mobile-navigation"
+      inert={!isOpen}
       className={`fixed top-0 w-full h-dvh bg-base-white py-10 px-6 flex flex-col justify-between md:hidden ${
         isOpen ? "-translate-x-0" : "translate-x-full"
       } transform transition-transform duration-400`}
@@ -139,8 +167,8 @@ export const MobileNavbar = ({ isOpen, closeMenu }: MobileNavbarProps) => {
             />
           </Link>
 
-          <button onClick={closeMenu} className="">
-            <Image src="svg/X.svg" alt="Cancle Button" width={24} height={24} />
+          <button onClick={closeMenu} aria-label="Close navigation menu">
+            <Image src="/svg/X.svg" alt="" width={24} height={24} />
           </button>
         </div>
 

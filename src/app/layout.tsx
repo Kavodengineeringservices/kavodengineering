@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kavodengineering.com"),
   title: "Kavod Engineering Services",
   description: "Kavod Engineering Services Website",
   icons: {

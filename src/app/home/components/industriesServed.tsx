@@ -1,18 +1,36 @@
-import { IndustriesGrid } from "./industriesGrid";
-import { SectionHeading } from "@/components/shared/sectionHeading";
+import Image from "next/image";
+import { IndustryContent } from "@/content/industryContent";
 
 export const IndustriesServed = () => {
   return (
-    <div className="bg-brand-700 flex flex-col gap-10 py-16 px-5 md:px-10">
-      <SectionHeading
-        variant="white"
-        section="industries served"
-        title="Precision Solutions Across Sectors"
-        paragraph="From on-site inspections to laboratory testing, Kavod delivers tailored services for diverse industries."
-        className="items-center text-center"
-      />
+    <section className="kes-section kes-industries">
+      <div className="kes-section-heading">
+        <p className="kes-kicker">Industries served</p>
+        <h2>Precision Solutions Across Sectors</h2>
+        <p>
+          From on-site inspections to laboratory testing, Kavod delivers
+          tailored services for diverse industries.
+        </p>
+      </div>
 
-      <IndustriesGrid />
-    </div>
+      <div className="kes-industry-grid">
+        {IndustryContent.map((industry, index) => (
+          <article key={industry.industry} className="kes-industry-card">
+            <div className="kes-industry-meta">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <Image
+                src={industry.icon}
+                alt=""
+                width={28}
+                height={28}
+                aria-hidden="true"
+              />
+            </div>
+            <h3>{industry.industry}</h3>
+            <p>{industry.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 };

@@ -3,7 +3,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay, EffectFade } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper";
 
 import Image from "next/image";
@@ -14,11 +14,10 @@ interface BackgroundCarouselProps {
 }
 
 const images = [
-  "/images/image1.jpg",
-  "/images/image2.jpg",
-  "/images/image4.jpg",
-  "/images/image5.jpg",
-  "/images/image6.jpg",
+  "/images/hero-image-1.jpeg",
+  "/images/hero-image-2.jpeg",
+  "/images/hero-image-3.jpeg",
+  "/images/hero-image-4.jpeg",
 ];
 
 export const BackgroundCarouselWithControls = ({
@@ -28,9 +27,9 @@ export const BackgroundCarouselWithControls = ({
 
   return (
     <Swiper
-      modules={[Navigation, Autoplay]}
+      modules={[Navigation, Autoplay, EffectFade]}
       effect="fade"
-      autoplay={{ delay: 5000, disableOnInteraction: false }}
+      autoplay={{ delay: 4000, disableOnInteraction: false }}
       loop
       allowTouchMove={false}
       navigation={false}
@@ -47,6 +46,7 @@ export const BackgroundCarouselWithControls = ({
             src={src}
             alt={`Background ${index + 1}`}
             fill
+            sizes="100vw"
             className="object-cover object-center"
             priority={index === 0}
             quality={90}

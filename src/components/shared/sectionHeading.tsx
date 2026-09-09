@@ -22,7 +22,7 @@ export const SectionHeading = ({
 }: SectionHeadingProps) => {
   const variantClasses = {
     white: "text-base-white",
-    black: "text-brand-900",
+    black: "text-base-white",
   };
 
   return (

@@ -23,22 +23,16 @@ export const CustomButton = ({
 }: CustomButtonProps) => {
   const variantClasses = {
     primary:
-      "text-brand-900 bg-secondary-500 hover:text-base-white before:bg-brand-700",
-    secondary: "text-brand-900 bg-base-white before:bg-secondary-500",
+      "text-base-black bg-[#ff5b00] hover:bg-[#ff7a33]",
+    secondary: "text-base-black bg-base-white hover:bg-gray-100",
   };
 
   const baseClasses =
-    "relative overflow-hidden text-[14px] py-2 px-4 transition-all duration-500 ease-in-out before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:transition-all before:duration-250 before:ease-in-out hover:before:w-full before:z-0";
+    "relative inline-flex items-center justify-center overflow-hidden rounded-full text-[14px] uppercase tracking-[0.05em] py-3 px-6 transition-colors duration-300";
 
   const buttonClasses = clsx(baseClasses, variantClasses[variant], className);
 
-  const content = React.isValidElement<{ className?: string }>(children) ? (
-    React.cloneElement(children, {
-      className: clsx(children.props.className, "relative z-10"),
-    })
-  ) : (
-    <span className="relative z-10">{children}</span>
-  );
+  const content = <span className="relative z-10">{children}</span>;
 
   if (href) {
     return (

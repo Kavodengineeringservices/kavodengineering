@@ -30,19 +30,8 @@ const values = [
 
 export default function Home() {
   return (
-    <main className="kes-home">
+    <main>
       <HomeHeader />
-
-      <div className="kes-sector-strip" aria-label="Industries served">
-        <span>Built for critical infrastructure</span>
-        <span>Construction</span>
-        <span>Oil &amp; Gas</span>
-        <span>Manufacturing</span>
-        <span>Transportation</span>
-        <span>Aerospace</span>
-        <span>Power Generation</span>
-      </div>
-
       <AboutUs />
       <OurServices />
       <IndustriesServed />
